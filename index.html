@@ -39,9 +39,12 @@
         }
         
         .logo {
-            font-size: 1.8rem;
-            font-weight: bold;
-            color: #FF8C00;
+            height: 50px;
+        }
+        
+        .logo img {
+            height: 100%;
+            width: auto;
         }
         
         .nav-links {
@@ -313,7 +316,9 @@
 <body>
     <header>
         <nav class="container">
-            <div class="logo">Vocaxion</div>
+            <div class="logo">
+                <img src="Graphics/vocaxionLogo.jpg" alt="Vocaxion Logo">
+            </div>
             <ul class="nav-links">
                 <li><a href="#" onclick="showPage('home')" id="home-link" class="active">Home</a></li>
                 <li><a href="#" onclick="showPage('about')" id="about-link">About Us</a></li>

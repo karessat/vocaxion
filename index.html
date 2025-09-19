@@ -3,78 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vocaxion - Vocation in Action</title>
+    <title>Vocaxion</title>
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.6;
-            color: #333;
-            background-color: #f8f9fa;
+            font-family: 'Inter', sans-serif;
+            background-color: #133857; /* Dark navy background from palette */
+            color: #e0e0e0;
+            overflow-x: hidden;
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 12px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #184164;
+        }
+        ::-webkit-scrollbar-thumb {
+            background-color: #F6C13F;
+            border-radius: 6px;
+            border: 3px solid #184164;
         }
         
         .container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 0 20px;
-        }
-        
-        header {
-            background: #f8f9fa;
-            color: #333;
-            padding: 1rem 0;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-        
-        nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-        }
-        
-        .logo {
-            height: 50px;
-        }
-        
-        .logo img {
-            height: 100%;
-            width: auto;
-        }
-        
-        .nav-links {
-            display: flex;
-            list-style: none;
-            gap: 2rem;
-        }
-        
-        .nav-links a {
-            color: #333;
-            text-decoration: none;
-            padding: 0.5rem 1rem;
-            border-radius: 5px;
-            transition: background-color 0.3s ease;
-            cursor: pointer;
-        }
-        
-        .nav-links a:hover,
-        .nav-links a.active {
-            background-color: rgba(255, 140, 0, 0.2);
-        }
-        
-        main {
-            min-height: calc(100vh - 200px);
-            padding: 2rem 0;
+            padding: 0 1rem;
         }
         
         .page {
             display: none;
-            animation: fadeIn 0.5s ease-in;
+            animation: fadeIn 0.8s ease-in-out;
         }
         
         .page.active {
@@ -86,343 +46,266 @@
             to { opacity: 1; transform: translateY(0); }
         }
         
-        .hero {
-            background: linear-gradient(135deg, rgba(46, 124, 184, 0.1) 0%, rgba(255, 140, 0, 0.1) 100%);
-            padding: 4rem 0;
-            text-align: center;
-            border-radius: 15px;
-            margin-bottom: 3rem;
-        }
-        
+        /* Hero animations */
         .hero h1 {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-            color: #2E7CB8;
+            animation: slideInLeft 1s ease-out;
         }
         
         .hero p {
-            font-size: 1.3rem;
-            margin-bottom: 2rem;
-            color: #666;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
+            animation: slideInRight 1s ease-out;
         }
         
-        .cta-button {
-            display: inline-block;
-            background: linear-gradient(135deg, #FF8C00 0%, #FF6B35 100%);
-            color: white;
-            padding: 1rem 2rem;
-            text-decoration: none;
-            border-radius: 30px;
-            font-weight: bold;
-            transition: transform 0.3s ease;
-            box-shadow: 0 4px 15px rgba(255, 140, 0, 0.3);
+        @keyframes slideInLeft {
+            from { transform: translateX(-100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
         }
-        
-        .cta-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(255, 140, 0, 0.4);
+
+        @keyframes slideInRight {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
         }
-        
-        .features {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin: 3rem 0;
+
+        .gradient-text {
+            background-image: linear-gradient(to right, #F6C13F, #FF8031);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
-        
-        .feature-card {
-            background: white;
-            padding: 2rem;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            text-align: center;
-            transition: transform 0.3s ease;
+
+        .hover-glow {
+            transition: all 0.3s ease;
         }
-        
-        .feature-card:hover {
-            transform: translateY(-5px);
+        .hover-glow:hover {
+            box-shadow: 0 0 15px #FF8031, 0 0 25px #FF8031 inset;
+            transform: scale(1.05);
         }
-        
-        .feature-icon {
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(135deg, #2E7CB8 0%, #FF8C00 100%);
-            border-radius: 50%;
-            margin: 0 auto 1rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            color: white;
+
+        .pulse-once {
+            animation: pulse 1s ease-in-out;
         }
-        
-        .team-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 3rem;
-            margin: 3rem 0;
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
         }
-        
-        .team-member {
-            background: white;
-            padding: 2rem;
-            border-radius: 15px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
-            text-align: center;
+
+        /* Custom icon styling for better visual */
+        .icon {
+            filter: drop-shadow(0 0 5px #FF8031);
         }
-        
-        .team-member img {
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            margin-bottom: 1rem;
-            background: linear-gradient(135deg, #2E7CB8 0%, #FF8C00 100%);
+
+        .page-header {
+            text-shadow: 0 0 10px #FF8031;
         }
-        
-        .team-member h3 {
-            color: #2E7CB8;
-            margin-bottom: 0.5rem;
+
+        /* Updated nav button styles */
+        .game-nav-btn {
+            background: rgba(0, 138, 184, 0.2);
+            backdrop-filter: blur(10px);
+            border: 2px solid #008AB8;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 10px rgba(0, 138, 184, 0.5);
         }
-        
-        .team-member .role {
-            color: #FF8C00;
-            font-weight: bold;
-            margin-bottom: 1rem;
+
+        .game-nav-btn:hover {
+            background: rgba(255, 128, 49, 0.2);
+            border: 2px solid #FF8031;
+            box-shadow: 0 0 20px #FF8031;
         }
-        
-        .linkedin-link {
-            display: inline-block;
-            margin-top: 1rem;
-            color: #2E7CB8;
-            text-decoration: none;
-            font-weight: bold;
+
+        .game-nav-btn.active {
+            background: #FF8031;
+            color: #133857;
+            border: 2px solid #FF8031;
+            box-shadow: 0 0 20px #FF8031;
         }
-        
-        .linkedin-link:hover {
-            color: #FF8C00;
-        }
-        
-        .contact-form {
-            background: white;
-            padding: 3rem;
-            border-radius: 15px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
-            max-width: 600px;
-            margin: 0 auto;
-        }
-        
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
-        
-        .form-group label {
-            display: block;
-            margin-bottom: 0.5rem;
-            color: #2E7CB8;
-            font-weight: bold;
-        }
-        
-        .form-group input,
-        .form-group textarea {
-            width: 100%;
-            padding: 1rem;
-            border: 2px solid #e9ecef;
-            border-radius: 8px;
-            font-size: 1rem;
+
+        /* Custom input and button styling */
+        .game-input {
+            background-color: #184164;
+            border: 2px solid #008AB8;
+            color: #e0e0e0;
             transition: border-color 0.3s ease;
         }
-        
-        .form-group input:focus,
-        .form-group textarea:focus {
+        .game-input:focus {
             outline: none;
-            border-color: #2E7CB8;
+            border-color: #FF8031;
+            box-shadow: 0 0 10px #FF8031;
         }
-        
-        .form-group textarea {
-            height: 120px;
-            resize: vertical;
-        }
-        
-        .submit-btn {
-            background: linear-gradient(135deg, #2E7CB8 0%, #FF8C00 100%);
+
+        .submit-btn-game {
+            background: linear-gradient(135deg, #F6C13F 0%, #FF8031 100%);
             color: white;
-            padding: 1rem 3rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 128, 49, 0.3);
             border: none;
-            border-radius: 30px;
-            font-size: 1.1rem;
-            font-weight: bold;
-            cursor: pointer;
-            transition: transform 0.3s ease;
-            width: 100%;
         }
-        
-        .submit-btn:hover {
+        .submit-btn-game:hover {
             transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 128, 49, 0.4);
+        }
+
+        .team-member-card {
+            background-color: #184164;
+            border: 2px solid #008AB8;
+            transition: all 0.3s ease;
+        }
+        .team-member-card:hover {
+            border-color: #FF8031;
+            box-shadow: 0 0 15px #FF8031;
+            transform: scale(1.02);
         }
         
-        footer {
-            background: #2E7CB8;
-            color: white;
-            text-align: center;
-            padding: 2rem 0;
-            margin-top: 3rem;
-        }
-        
-        .section {
-            margin: 3rem 0;
-        }
-        
-        .section h2 {
-            color: #2E7CB8;
-            margin-bottom: 2rem;
-            text-align: center;
-            font-size: 2.5rem;
-        }
-        
-        .section p {
-            font-size: 1.1rem;
-            color: #666;
-            text-align: center;
-            max-width: 800px;
-            margin: 0 auto 2rem;
-        }
-        
-        @media (max-width: 768px) {
-            .nav-links {
-                gap: 1rem;
-            }
-            
-            .hero h1 {
-                font-size: 2rem;
-            }
-            
-            .hero p {
-                font-size: 1.1rem;
-            }
-            
-            .features {
-                grid-template-columns: 1fr;
-            }
-            
-            .team-grid {
-                grid-template-columns: 1fr;
-            }
-        }
     </style>
 </head>
-<body>
-    <header>
-        <nav class="container">
-            <div class="logo">
-                <img src="Graphics/VocationLogoTrimmed.jpg" alt="Vocaxion Logo">
+<body class="bg-[#133857] text-[#e0e0e0]">
+
+    <!-- Navbar -->
+    <header class="bg-[#133857] shadow-lg sticky top-0 z-50">
+        <div class="container flex justify-between items-center py-4 md:py-6 flex-wrap">
+            <!-- Logo -->
+            <div class="flex-shrink-0 mb-4 md:mb-0">
+                <img src="Graphics/logo.png" alt="Vocaxion Logo" class="h-10 md:h-12 w-auto">
             </div>
-            <ul class="nav-links">
-                <li><a href="#" onclick="showPage('home')" id="home-link" class="active">Home</a></li>
-                <li><a href="#" onclick="showPage('about')" id="about-link">About Us</a></li>
-                <li><a href="#" onclick="showPage('contact')" id="contact-link">Contact</a></li>
-            </ul>
+
+            <!-- Navigation Buttons (Game Controls Style) -->
+            <nav class="flex flex-col md:flex-row items-center space-y-2 md:space-y-0 md:space-x-4">
+                <button onclick="showPage('home')" id="home-btn" class="game-nav-btn active px-6 py-2 rounded-full font-bold uppercase tracking-wider text-sm md:text-base hover-glow">Home</button>
+                <button onclick="showPage('about')" id="about-btn" class="game-nav-btn px-6 py-2 rounded-full font-bold uppercase tracking-wider text-sm md:text-base hover-glow">About Us</button>
+                <button onclick="showPage('contact')" id="contact-btn" class="game-nav-btn px-6 py-2 rounded-full font-bold uppercase tracking-wider text-sm md:text-base hover-glow">Contact</button>
         </nav>
+        </div>
     </header>
 
-    <main class="container">
+    <main class="container py-12 md:py-24">
         <!-- Home Page -->
         <div id="home" class="page active">
-            <section class="hero">
-                <h1>Vocation in Action</h1>
-                <p>Transform career training through interactive gaming experiences. We're revolutionizing how people learn professional skills, starting with the craft industries.</p>
-                <a href="#" onclick="showPage('about')" class="cta-button">Learn More About Our Mission</a>
+            <section class="text-center">
+                <h1 class="text-4xl md:text-6xl font-extrabold leading-tight page-header mb-4 md:mb-6">
+                    <span class="gradient-text">Vocaxion in Action</span>
+                </h1>
+                <p class="text-base md:text-xl max-w-2xl mx-auto mb-8 md:mb-12">
+                    Transform career training through interactive gaming experiences. We're revolutionizing how people learn professional skills, starting with the craft industries.
+                </p>
+                <button onclick="showPage('about')" class="submit-btn-game px-8 py-3 rounded-full font-bold uppercase text-sm md:text-base hover-glow pulse-once">
+                    Learn More About Our Mission
+                </button>
             </section>
 
-            <section class="features">
-                <div class="feature-card">
-                    <div class="feature-icon">🎮</div>
-                    <h3>Interactive Learning</h3>
-                    <p>Engaging game-based training that makes skill development fun and memorable, moving beyond traditional classroom methods.</p>
+            <!-- Feature Icons (Game Aesthetic) -->
+            <section class="grid grid-cols-1 md:grid-cols-3 gap-8 mt-16 text-center">
+                <div class="bg-[#184164] p-8 rounded-2xl hover-glow flex flex-col items-center">
+                    <div class="w-16 h-16 rounded-full bg-[#008AB8] flex items-center justify-center mb-4 icon">
+                        <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M11 15h1a3 3 0 01-3 3v-1h-1a3 3 0 01-3-3v-1h-1a3 3 0 01-3-3V6a3 3 0 013-3h1V2a3 3 0 013-3h1a3 3 0 013 3v1h1a3 3 0 013 3v1a3 3 0 013 3v1a3 3 0 01-3 3h-1v1a3 3 0 01-3 3v1zM6 9a1 1 0 100 2 1 1 0 000-2z" />
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Interactive Learning</h3>
+                    <p class="text-sm text-gray-400">Engaging game-based training that makes skill development fun and memorable, moving beyond traditional classroom methods.</p>
                 </div>
-                <div class="feature-card">
-                    <div class="feature-icon">🔨</div>
-                    <h3>Craft Industry Focus</h3>
-                    <p>Starting with hands-on craft careers, we're building comprehensive training modules for skilled trades and artisan professions.</p>
+                <div class="bg-[#184164] p-8 rounded-2xl hover-glow flex flex-col items-center">
+                    <div class="w-16 h-16 rounded-full bg-[#008AB8] flex items-center justify-center mb-4 icon">
+                        <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M12.5 18a.5.5 0 01-.5-.5v-4.5a.5.5 0 01.5-.5h2a.5.5 0 01.5.5v4.5a.5.5 0 01-.5.5h-2zM9.5 12a.5.5 0 01-.5-.5v-4.5a.5.5 0 01.5-.5h2a.5.5 0 01.5.5v4.5a.5.5 0 01-.5.5h-2zM6.5 18a.5.5 0 01-.5-.5v-13a.5.5 0 01.5-.5h2a.5.5 0 01.5.5v13a.5.5 0 01-.5.5h-2zM3.5 12a.5.5 0 01-.5-.5v-4.5a.5.5 0 01.5-.5h2a.5.5 0 01.5.5v4.5a.5.5 0 01-.5.5h-2z" />
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Craft Industry Focus</h3>
+                    <p class="text-sm text-gray-400">Starting with hands-on craft careers, we're building comprehensive training modules for skilled trades and artisan professions.</p>
                 </div>
-                <div class="feature-card">
-                    <div class="feature-icon">📈</div>
-                    <h3>Career Advancement</h3>
-                    <p>Practical skills training that directly translates to real-world career opportunities and professional growth.</p>
+                <div class="bg-[#184164] p-8 rounded-2xl hover-glow flex flex-col items-center">
+                    <div class="w-16 h-16 rounded-full bg-[#008AB8] flex items-center justify-center mb-4 icon">
+                        <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M13.5 18a.5.5 0 01-.5-.5v-10.5a.5.5 0 01.5-.5h2a.5.5 0 01.5.5v10.5a.5.5 0 01-.5.5h-2zM10.5 15a.5.5 0 01-.5-.5v-10.5a.5.5 0 01.5-.5h2a.5.5 0 01.5.5v10.5a.5.5 0 01-.5.5h-2zM7.5 18a.5.5 0 01-.5-.5v-13a.5.5 0 01.5-.5h2a.5.5 0 01.5.5v13a.5.5 0 01-.5.5h-2zM4.5 15a.5.5 0 01-.5-.5v-10.5a.5.5 0 01.5-.5h2a.5.5 0 01.5.5v10.5a.5.5 0 01-.5.5h-2z" />
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Career Advancement</h3>
+                    <p class="text-sm text-gray-400">Practical skills training that directly translates to real-world career opportunities and professional growth.</p>
                 </div>
-            </section>
-
-            <section class="section">
-                <h2>Ready to Join the Revolution?</h2>
-                <p>We're in our fundraising stage and looking for partners, investors, and early adopters who share our vision of transforming career education through innovative gaming technology.</p>
             </section>
         </div>
 
         <!-- About Us Page -->
         <div id="about" class="page">
-            <section class="section">
-                <h2>About Vocaxion</h2>
-                <p>Vocaxion is an innovative early-stage LLC dedicated to revolutionizing career training through interactive gaming experiences. We believe that learning should be engaging, practical, and directly applicable to real-world professional scenarios.</p>
+            <h2 class="text-3xl md:text-5xl font-extrabold text-center page-header mb-12">
+                <span class="gradient-text">About Vocaxion</span>
+            </h2>
+            <div class="space-y-8">
+                <p class="text-center max-w-4xl mx-auto">
+                    Vocaxion is dedicated to revolutionizing career training<br>through engaging and interactive gaming experiences.
+                </p>
                 
-                <p>Our mission is to bridge the gap between traditional education and practical career skills by creating immersive, game-based training programs. Starting with the craft industries, we're developing comprehensive modules that train individuals for successful careers in skilled trades and artisan professions.</p>
-                
-                <p>Founded by experienced instructional designers with expertise across construction, accounting, technology, and various other fields, Vocaxion combines deep industry knowledge with cutting-edge educational technology to create training experiences that are both effective and enjoyable.</p>
-            </section>
-
-            <section class="section">
-                <h2>Our Leadership Team</h2>
-                <div class="team-grid">
-                    <div class="team-member">
-                        <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTIwIiBoZWlnaHQ9IjEyMCIgdmlld0JveD0iMCAwIDEyMCAxMjAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iNjAiIGN5PSI2MCIgcj0iNjAiIGZpbGw9IiMyRTdDQjgiLz48dGV4dCB4PSI2MCIgeT0iNzAiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIzNiIgZmlsbD0id2hpdGUiIHRleHQtYW5jaG9yPSJtaWRkbGUiPkpZVzwvdGV4dD48L3N2Zz4=" alt="Jiaqi Yu Warden" />
-                        <h3>Jiaqi Yu Warden</h3>
-                        <div class="role">Chief Technology Officer</div>
-                        <p>Experienced instructional designer with expertise across multiple industries including construction, accounting, and technology. Brings deep technical knowledge and educational innovation to Vocaxion's platform development.</p>
-                        <a href="https://www.linkedin.com/in/jiaqi-yu-warden-439064123/" target="_blank" class="linkedin-link">View LinkedIn Profile →</a>
+                <div class="space-y-6">
+                    <div>
+                        <h3 class="text-2xl font-bold text-center mb-4 gradient-text">Mission</h3>
+                        <p class="text-center max-w-4xl mx-auto">
+                            Vocaxion bridges education and industry by empowering youth and early career seekers to explore career choices, build skills, and earn credentials in immersive, game-based simulations of true-to-life work environments.
+                        </p>
                     </div>
-                    <div class="team-member">
-                        <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTIwIiBoZWlnaHQ9IjEyMCIgdmlld0JveD0iMCAwIDEyMCAxMjAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iNjAiIGN5PSI2MCIgcj0iNjAiIGZpbGw9IiNGRjhDMDAiLz48dGV4dCB4PSI2MCIgeT0iNzAiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIzNiIgZmlsbD0id2hpdGUiIHRleHQtYW5jaG9yPSJtaWRkbGUiPktUPC90ZXh0Pjwvc3ZnPg==" alt="Karessa Torgerson" />
-                        <h3>Karessa Torgerson</h3>
-                        <div class="role">Chief Executive Officer</div>
-                        <p>Strategic leader with extensive experience in instructional design across diverse fields. Drives Vocaxion's vision of transforming career training through innovative educational gaming solutions.</p>
-                        <a href="https://www.linkedin.com/in/karessatorgerson/" target="_blank" class="linkedin-link">View LinkedIn Profile →</a>
+                    
+                    <div>
+                        <h3 class="text-2xl font-bold text-center mb-4 gradient-text">Vision</h3>
+                        <p class="text-center max-w-4xl mx-auto">
+                            We envision a future in which every learner can experience diverse careers and transition seamlessly between the classroom and the workplace with clarity and confidence.
+                        </p>
+                    </div>
+                    
+                    <div>
+                        <h3 class="text-2xl font-bold text-center mb-4 gradient-text">Current Focus</h3>
+                        <p class="text-center max-w-4xl mx-auto">
+                            Our first contributions are the construction industry, a sector experiencing strong growth and offering stable, well-paying careers across a wide range of disciplines. Construction also provides lasting value to society, as its workforce creates the infrastructure that communities depend on every day.
+                        </p>
                     </div>
                 </div>
-            </section>
-
-            <section class="section">
-                <h2>Our Vision</h2>
-                <p>We envision a world where career training is accessible, engaging, and directly aligned with industry needs. Through our innovative gaming platform, we're creating pathways for individuals to develop practical skills that lead to meaningful career opportunities in the craft industries and beyond.</p>
-                
-                <p>As we continue to grow and secure funding, we're committed to expanding our offerings and partnering with industry leaders to ensure our training programs remain current, relevant, and effective.</p>
-            </section>
+            </div>
+            
+            <h2 class="text-3xl md:text-5xl font-extrabold text-center page-header mt-16 mb-12">
+                <span class="gradient-text">Our Leadership Team</span>
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Jiaqi Yu Warden -->
+                <div class="team-member-card p-8 rounded-3xl flex flex-col items-center text-center hover-glow">
+                    <img src="Graphics/jiaqi.jpeg" alt="Jiaqi Yu Warden" class="rounded-full mb-4 w-32 h-32 border-4 border-[#008AB8] object-cover">
+                    <h3 class="text-2xl font-bold mb-1">Jiaqi Yu Warden</h3>
+                    <p class="text-sm gradient-text font-semibold mb-4">Chief Technology Officer</p>
+                    <p class="text-gray-400">Experienced instructional designer with expertise across multiple industries including construction, accounting, and technology. Brings deep technical knowledge and educational innovation to Vocaxion's platform development.</p>
+                    <a href="https://www.linkedin.com/in/jiaqi-yu-warden-439064123/" target="_blank" class="text-sm mt-4 font-bold text-[#F6C13F] hover:underline">View LinkedIn Profile →</a>
+                </div>
+                <!-- Karessa Torgerson -->
+                <div class="team-member-card p-8 rounded-3xl flex flex-col items-center text-center hover-glow">
+                    <img src="Graphics/karessa.jpeg" alt="Karessa Torgerson" class="rounded-full mb-4 w-32 h-32 border-4 border-[#008AB8] object-cover">
+                    <h3 class="text-2xl font-bold mb-1">Karessa Torgerson</h3>
+                    <p class="text-sm gradient-text font-semibold mb-4">Chief Executive Officer</p>
+                    <p class="text-gray-400">Strategic leader with extensive experience in instructional design across diverse fields. Drives Vocaxion's vision of transforming career training through innovative educational gaming solutions.</p>
+                    <a href="https://www.linkedin.com/in/karessatorgerson/" target="_blank" class="text-sm mt-4 font-bold text-[#F6C13F] hover:underline">View LinkedIn Profile →</a>
+                </div>
+            </div>
         </div>
 
         <!-- Contact Page -->
         <div id="contact" class="page">
-            <section class="section">
-                <h2>Get in Touch</h2>
-                <p>Interested in learning more about Vocaxion? Whether you're a potential investor, partner, or future learner, we'd love to hear from you.</p>
-            </section>
+            <h2 class="text-3xl md:text-5xl font-extrabold text-center page-header mb-12">
+                <span class="gradient-text">Get in Touch</span>
+            </h2>
+            <p class="text-center max-w-2xl mx-auto mb-8">
+                Interested in learning more about Vocaxion? Whether you're a potential investor, partner, or future learner, we'd love to hear from you.
+            </p>
 
-            <div class="contact-form">
-                <form onsubmit="handleSubmit(event)">
-                    <div class="form-group">
-                        <label for="name">Full Name</label>
-                        <input type="text" id="name" name="name" required>
+            <form onsubmit="handleSubmit(event)" class="max-w-xl mx-auto bg-[#184164] p-8 rounded-2xl shadow-lg border border-[#008AB8] hover-glow">
+                <div class="mb-4">
+                    <label for="name" class="block text-sm font-bold mb-1 text-[#008AB8]">Full Name</label>
+                    <input type="text" id="name" name="name" required class="game-input w-full p-3 rounded-xl focus:border-[#FF8031]">
                     </div>
-                    <div class="form-group">
-                        <label for="email">Email Address</label>
-                        <input type="email" id="email" name="email" required>
+                <div class="mb-4">
+                    <label for="email" class="block text-sm font-bold mb-1 text-[#008AB8]">Email Address</label>
+                    <input type="email" id="email" name="email" required class="game-input w-full p-3 rounded-xl">
                     </div>
-                    <div class="form-group">
-                        <label for="company">Company/Organization (Optional)</label>
-                        <input type="text" id="company" name="company">
+                <div class="mb-4">
+                    <label for="company" class="block text-sm font-bold mb-1 text-[#008AB8]">Company/Organization (Optional)</label>
+                    <input type="text" id="company" name="company" class="game-input w-full p-3 rounded-xl">
                     </div>
-                    <div class="form-group">
-                        <label for="interest">I'm interested in:</label>
-                        <select id="interest" name="interest" style="width: 100%; padding: 1rem; border: 2px solid #e9ecef; border-radius: 8px; font-size: 1rem;">
+                <div class="mb-4">
+                    <label for="interest" class="block text-sm font-bold mb-1 text-[#008AB8]">I'm interested in:</label>
+                    <select id="interest" name="interest" class="game-input w-full p-3 rounded-xl">
                             <option value="">Please select...</option>
                             <option value="investment">Investment Opportunities</option>
                             <option value="partnership">Partnership</option>
@@ -430,58 +313,63 @@
                             <option value="general">General Inquiry</option>
                         </select>
                     </div>
-                    <div class="form-group">
-                        <label for="message">Message</label>
-                        <textarea id="message" name="message" placeholder="Tell us more about your interest in Vocaxion..." required></textarea>
-                    </div>
-                    <button type="submit" class="submit-btn">Send Message</button>
-                </form>
-            </div>
-
-            <section class="section">
-                <h2>Connect with Our Leadership</h2>
-                <div style="display: flex; justify-content: center; gap: 3rem; flex-wrap: wrap; margin-top: 2rem;">
-                    <div style="text-align: center;">
-                        <h4 style="color: #2E7CB8; margin-bottom: 0.5rem;">Jiaqi Yu Warden, CTO</h4>
-                        <a href="https://www.linkedin.com/in/jiaqi-yu-warden-439064123/" target="_blank" class="linkedin-link">LinkedIn Profile</a>
-                    </div>
-                    <div style="text-align: center;">
-                        <h4 style="color: #2E7CB8; margin-bottom: 0.5rem;">Karessa Torgerson, CEO</h4>
-                        <a href="https://www.linkedin.com/in/karessatorgerson/" target="_blank" class="linkedin-link">LinkedIn Profile</a>
-                    </div>
+                <div class="mb-6">
+                    <label for="message" class="block text-sm font-bold mb-1 text-[#008AB8]">Message</label>
+                    <textarea id="message" name="message" placeholder="Tell us more about your interest in Vocaxion..." required rows="5" class="game-input w-full p-3 rounded-xl"></textarea>
                 </div>
-            </section>
+                <button type="submit" class="submit-btn-game w-full p-4 rounded-xl font-bold uppercase hover-glow">
+                    Send Message
+                </button>
+            </form>
         </div>
     </main>
 
-    <footer>
+    <!-- Footer -->
+    <footer class="bg-[#133857] py-6 text-center text-gray-500 text-sm">
         <div class="container">
-            <p>&copy; 2024 Vocaxion LLC. All rights reserved. | Vocation in Action</p>
+            <p>&copy; 2024 Vocaxion LLC. All rights reserved. | Vocaxion in Action</p>
         </div>
     </footer>
 
+    <!-- Message Box -->
+    <div id="message-box" class="fixed inset-0 bg-gray-900 bg-opacity-75 z-[99] hidden flex items-center justify-center">
+        <div class="bg-[#184164] p-8 rounded-2xl border-4 border-[#FF8031] shadow-xl max-w-sm text-center">
+            <h3 class="text-xl font-bold text-[#FF8031] mb-4">SUCCESS!</h3>
+            <p class="text-gray-300 mb-6">Thank you for your message! We will get back to you soon. For immediate inquiries, please connect with our leadership team on LinkedIn.</p>
+            <button onclick="hideMessageBox()" class="px-6 py-2 bg-[#FF8031] text-white rounded-full font-bold hover:bg-[#E5602E] transition-colors">
+                OK
+            </button>
+        </div>
+    </div>
+
     <script>
+        // Function to show a specific page and update nav buttons
         function showPage(pageId) {
             // Hide all pages
-            const pages = document.querySelectorAll('.page');
-            pages.forEach(page => page.classList.remove('active'));
+            document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
+            // Remove active class from all nav buttons
+            document.querySelectorAll('.game-nav-btn').forEach(btn => btn.classList.remove('active'));
             
-            // Remove active class from all nav links
-            const navLinks = document.querySelectorAll('.nav-links a');
-            navLinks.forEach(link => link.classList.remove('active'));
-            
-            // Show selected page
+            // Show the selected page and add active class to its button
             document.getElementById(pageId).classList.add('active');
-            
-            // Add active class to corresponding nav link
-            document.getElementById(pageId + '-link').classList.add('active');
+            document.getElementById(pageId + '-btn').classList.add('active');
         }
 
+        // Handle form submission
         function handleSubmit(event) {
             event.preventDefault();
-            alert('Thank you for your message! We will get back to you soon. For immediate inquiries, please connect with our leadership team on LinkedIn.');
+            document.getElementById('message-box').classList.remove('hidden');
             event.target.reset();
         }
+
+        // Hide the message box
+        function hideMessageBox() {
+            document.getElementById('message-box').classList.add('hidden');
+        }
+
+        // Initialize the first page
+        showPage('home');
     </script>
+
 </body>
 </html>

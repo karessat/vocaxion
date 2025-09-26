@@ -98,28 +98,137 @@
             text-shadow: none;
         }
 
-        /* Updated nav button styles */
-        .game-nav-btn {
-            background: #008AB8;
-            color: white;
-            backdrop-filter: blur(10px);
-            border: 2px solid #008AB8;
+        /* Responsive navigation */
+        .nav-menu {
+            display: flex;
+            align-items: center;
+            position: relative;
+        }
+
+        .nav-menu ul {
+            display: flex;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            gap: 2rem;
+        }
+
+        .nav-menu a {
+            color: #133857;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 16px;
+            transition: color 0.3s ease;
+            padding: 0.5rem 0;
+        }
+
+        .nav-menu a:hover {
+            color: #FF8031;
+        }
+
+        .nav-menu a.active {
+            color: #FF8031;
+            font-weight: 600;
+        }
+
+        /* Hamburger menu button */
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            padding: 4px;
+            background: none;
+            border: none;
+            width: 30px;
+            height: 30px;
+            justify-content: space-around;
+        }
+
+        .hamburger span {
+            display: block;
+            height: 3px;
+            width: 100%;
+            background-color: #133857;
+            border-radius: 2px;
             transition: all 0.3s ease;
-            box-shadow: 0 0 10px rgba(0, 138, 184, 0.3);
         }
 
-        .game-nav-btn:hover {
-            background: #FF8031;
-            color: white;
-            border: 2px solid #FF8031;
-            box-shadow: 0 0 20px rgba(255, 128, 49, 0.4);
+        .hamburger.active span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
         }
 
-        .game-nav-btn.active {
-            background: #FF8031;
-            color: white;
-            border: 2px solid #FF8031;
-            box-shadow: 0 0 20px rgba(255, 128, 49, 0.4);
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(7px, -6px);
+        }
+
+        /* Mobile dropdown menu */
+        .mobile-menu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            min-width: 200px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .mobile-menu.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .mobile-menu ul {
+            flex-direction: column;
+            gap: 0;
+            padding: 8px 0;
+        }
+
+        .mobile-menu a {
+            display: block;
+            padding: 12px 20px;
+            color: #133857;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border-left: 3px solid transparent;
+        }
+
+        .mobile-menu a:hover {
+            background-color: #f8f9fa;
+            color: #FF8031;
+            border-left-color: #FF8031;
+        }
+
+        .mobile-menu a.active {
+            background-color: #e3f2fd;
+            color: #FF8031;
+            border-left-color: #FF8031;
+        }
+
+        /* Mobile responsive */
+        @media (max-width: 767px) {
+            .hamburger {
+                display: flex;
+            }
+
+            .nav-menu ul {
+                display: none;
+            }
+
+            .mobile-menu {
+                display: block;
+            }
         }
 
         /* Custom input and button styling */
@@ -170,12 +279,31 @@
                 <img src="Graphics/logo.png" alt="Vocaxion Logo" class="h-10 md:h-12 w-auto">
             </div>
 
-            <!-- Navigation Buttons (Game Controls Style) -->
-            <nav class="flex flex-col md:flex-row items-center space-y-2 md:space-y-0 md:space-x-4">
-                <button onclick="showPage('home')" id="home-btn" class="game-nav-btn active px-6 py-2 rounded-full font-bold uppercase tracking-wider text-sm md:text-base hover-glow">Home</button>
-                <button onclick="showPage('about')" id="about-btn" class="game-nav-btn px-6 py-2 rounded-full font-bold uppercase tracking-wider text-sm md:text-base hover-glow">About Us</button>
-                <button onclick="showPage('contact')" id="contact-btn" class="game-nav-btn px-6 py-2 rounded-full font-bold uppercase tracking-wider text-sm md:text-base hover-glow">Contact</button>
-        </nav>
+            <!-- Responsive Navigation -->
+            <nav class="nav-menu">
+                <!-- Desktop Navigation -->
+                <ul>
+                    <li><a href="#" onclick="showPage('home')" id="home-link" class="active">Home</a></li>
+                    <li><a href="#" onclick="showPage('about')" id="about-link">About Us</a></li>
+                    <li><a href="#" onclick="showPage('contact')" id="contact-link">Contact</a></li>
+                </ul>
+                
+                <!-- Hamburger Menu Button -->
+                <button class="hamburger" onclick="toggleMobileMenu()">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+                
+                <!-- Mobile Dropdown Menu -->
+                <div class="mobile-menu">
+                    <ul>
+                        <li><a href="#" onclick="showPage('home')" id="mobile-home-link" class="active">Home</a></li>
+                        <li><a href="#" onclick="showPage('about')" id="mobile-about-link">About Us</a></li>
+                        <li><a href="#" onclick="showPage('contact')" id="mobile-contact-link">Contact</a></li>
+                    </ul>
+                </div>
+            </nav>
         </div>
     </header>
 
@@ -196,17 +324,17 @@
 
             <!-- Feature Icons (Game Aesthetic) -->
             <section class="grid grid-cols-1 md:grid-cols-3 gap-8 mt-16 text-center">
-                <div class="bg-[#184164] p-8 rounded-2xl hover-glow flex flex-col items-center">
+                <div class="bg-[#184164] p-8 rounded-2xl flex flex-col items-center">
                     <img src="Graphics/xButton.png" alt="X Button" class="w-16 h-16 mb-4 object-cover rounded-full">
                     <h3 class="text-xl font-bold mb-2">Interactive Learning</h3>
                     <p class="text-sm text-gray-400">Engaging game-based training that makes skill development fun and memorable, moving beyond traditional classroom methods.</p>
                 </div>
-                <div class="bg-[#184164] p-8 rounded-2xl hover-glow flex flex-col items-center">
+                <div class="bg-[#184164] p-8 rounded-2xl flex flex-col items-center">
                     <img src="Graphics/plusButton.png" alt="Plus Button" class="w-16 h-16 mb-4 object-cover rounded-full">
                     <h3 class="text-xl font-bold mb-2">Craft Industry Focus</h3>
                     <p class="text-sm text-gray-400">Starting with hands-on craft careers, we're building comprehensive training modules for skilled trades and artisan professions.</p>
                 </div>
-                <div class="bg-[#184164] p-8 rounded-2xl hover-glow flex flex-col items-center">
+                <div class="bg-[#184164] p-8 rounded-2xl flex flex-col items-center">
                     <img src="Graphics/forwardButton.png" alt="Forward Button" class="w-16 h-16 mb-4 object-cover rounded-full">
                     <h3 class="text-xl font-bold mb-2">Career Advancement</h3>
                     <p class="text-sm text-gray-400">Practical skills training that directly translates to real-world career opportunities and professional growth.</p>
@@ -224,24 +352,25 @@
                     Vocaxion is dedicated to revolutionizing career training<br>through engaging and interactive gaming experiences.
                 </p>
                 
-                <div class="space-y-6">
-                    <div>
-                        <h3 class="text-2xl font-bold text-center mb-4 gradient-text">Mission</h3>
-                        <p class="text-center max-w-4xl mx-auto">
+                <!-- Mission, Vision, and Focus Cards -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12">
+                    <div class="bg-[#184164] p-8 rounded-2xl flex flex-col items-center text-center">
+                        <h3 class="text-2xl font-bold mb-4 gradient-text">Mission</h3>
+                        <p class="text-sm text-gray-400">
                             Vocaxion bridges education and industry by empowering youth and early career seekers to explore career choices, build skills, and earn credentials in immersive, game-based simulations of true-to-life work environments.
                         </p>
                     </div>
                     
-                    <div>
-                        <h3 class="text-2xl font-bold text-center mb-4 gradient-text">Vision</h3>
-                        <p class="text-center max-w-4xl mx-auto">
+                    <div class="bg-[#184164] p-8 rounded-2xl flex flex-col items-center text-center">
+                        <h3 class="text-2xl font-bold mb-4 gradient-text">Vision</h3>
+                        <p class="text-sm text-gray-400">
                             We envision a future in which every learner can experience diverse careers and transition seamlessly between the classroom and the workplace with clarity and confidence.
                         </p>
                     </div>
                     
-                    <div>
-                        <h3 class="text-2xl font-bold text-center mb-4 gradient-text">Current Focus</h3>
-                        <p class="text-center max-w-4xl mx-auto">
+                    <div class="bg-[#184164] p-8 rounded-2xl flex flex-col items-center text-center">
+                        <h3 class="text-2xl font-bold mb-4 gradient-text">Current Focus</h3>
+                        <p class="text-sm text-gray-400">
                             Our first contributions are the construction industry, a sector experiencing strong growth and offering stable, well-paying careers across a wide range of disciplines. Construction also provides lasting value to society, as its workforce creates the infrastructure that communities depend on every day.
                         </p>
                     </div>
@@ -333,17 +462,49 @@
     </div>
 
     <script>
-        // Function to show a specific page and update nav buttons
+        // Function to show a specific page and update nav links
         function showPage(pageId) {
             // Hide all pages
             document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
-            // Remove active class from all nav buttons
-            document.querySelectorAll('.game-nav-btn').forEach(btn => btn.classList.remove('active'));
+            // Remove active class from all nav links (both desktop and mobile)
+            document.querySelectorAll('.nav-menu a, .mobile-menu a').forEach(link => link.classList.remove('active'));
             
-            // Show the selected page and add active class to its button
+            // Show the selected page and add active class to its links
             document.getElementById(pageId).classList.add('active');
-            document.getElementById(pageId + '-btn').classList.add('active');
+            document.getElementById(pageId + '-link').classList.add('active');
+            document.getElementById('mobile-' + pageId + '-link').classList.add('active');
+            
+            // Close mobile menu after selection
+            closeMobileMenu();
         }
+
+        // Function to toggle mobile menu
+        function toggleMobileMenu() {
+            const hamburger = document.querySelector('.hamburger');
+            const mobileMenu = document.querySelector('.mobile-menu');
+            
+            hamburger.classList.toggle('active');
+            mobileMenu.classList.toggle('active');
+        }
+
+        // Function to close mobile menu
+        function closeMobileMenu() {
+            const hamburger = document.querySelector('.hamburger');
+            const mobileMenu = document.querySelector('.mobile-menu');
+            
+            hamburger.classList.remove('active');
+            mobileMenu.classList.remove('active');
+        }
+
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', function(event) {
+            const navMenu = document.querySelector('.nav-menu');
+            const mobileMenu = document.querySelector('.mobile-menu');
+            
+            if (!navMenu.contains(event.target) && mobileMenu.classList.contains('active')) {
+                closeMobileMenu();
+            }
+        });
 
         // Handle form submission
         function handleSubmit(event) {
